@@ -81,6 +81,8 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
+
+<!--        knife4j对swagger进行了封装   导入swagger-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>

@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sky.mapper.EmployeeMapper">
+
+    <!--    员工分页模糊查询的持久层开发-->
+    <!--    返回的是Employee对象,被收集到page<Employee>中了-->
+    <select id="pageQuery" resultType="com.sky.entity.Employee">
+        select * from employee
+        <where>
+            <if test="name != null and name != ''">
+
+                <!-- CONCAT 是一个字符串函数，用于连接两个或多个字符串  , name的值会自动匹配 employeePageQueryDTO中的name属性-->
+                and name like concat ('%',#{name},'%')
+            </if>
+            <!--         不需要写limit条件,pagehelper通过mybatis拦截器 会自动加在sql语句中-->
+        </where>
+        order by create_time desc
+    </select>
+
+
+    <!--    动态sql 根据Employee对象的id(主键)    更新 Employee对象的信息-->
+    <!--    parameterType 表示参数类型-->
+    <update id="update" parameterType="Employee">
+        update employee
+        <set>
+            <if test = "name != null">name= #{name},</if>
+            <if test = "username != null">username= #{username},</if>
+            <if test = "password != null">password = #{password},</if>
+            <if test = "phone != null">phone = #{phone},</if>
+            <if test = "sex != null">sex = #{sex},</if>
+            <if test = "idNumber != null">id_number = #{idNumber},</if>
+            <if test = "status != null">status = #{status},</if>
+            <if test = "updateTime != null">update_time = #{updateTime},</if>
+            <if test = "updateUser != null">update_user = #{updateUser},</if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>
